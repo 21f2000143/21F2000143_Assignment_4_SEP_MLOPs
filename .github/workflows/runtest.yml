@@ -1,5 +1,6 @@
 # This workflow will install Python dependencies, run tests and lint with a single version of Python
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+        # gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
 
 name: Sanity test
 
@@ -31,7 +32,6 @@ jobs:
       run: |
         echo "${{ secrets.GCP_CREDENTIALS_JSON }}" > key.json
         export GOOGLE_APPLICATION_CREDENTIALS=$PWD/key.json
-        gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
         dvc pull model.keras.dvc
         dvc pull samples.dvc
 
