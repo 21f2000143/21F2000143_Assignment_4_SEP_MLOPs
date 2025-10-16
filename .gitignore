@@ -1,3 +1,5 @@
 .env
 /data
 /model.weights.h5
+/samples
+/__pycache__
