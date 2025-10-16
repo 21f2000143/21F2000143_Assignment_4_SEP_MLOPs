@@ -27,15 +27,14 @@ jobs:
         python -m pip install --upgrade pip
       
     - uses: iterative/setup-cml@v2
-    - name: Authenticate to Google Cloud
+    - name: Authenticate to Google Cloud & Pull
       run: |
         echo "${{ secrets.GCP_CREDENTIALS_JSON }}" > key.json
         export GOOGLE_APPLICATION_CREDENTIALS=$PWD/key.json
-
-    - name: Pull model and data from DVC REMOTE
-      run: |
+        gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
         dvc pull model.keras.dvc
         dvc pull samples.dvc
+
     - name: run unit tests
       run: |
         python -m test 2>&1 > test_output.txt
