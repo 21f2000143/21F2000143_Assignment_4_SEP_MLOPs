@@ -21,14 +21,18 @@ jobs:
       with:
         python-version: "3.10"
     - name: Install dependencies
+      run: |
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
         pip install flake8 pytest
         python -m pip install --upgrade pip
       
     - uses: iterative/setup-cml@v2
+    - name: Authenticate to Google Cloud
+      run: |
+        echo "${{ secrets.GCP_CREDENTIALS_JSON }}" > key.json
+        export GOOGLE_APPLICATION_CREDENTIALS=$PWD/key.json
 
     - name: Pull model and data from DVC REMOTE
-
       run: |
         dvc pull model.keras.dvc
         dvc pull samples.dvc
