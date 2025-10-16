@@ -29,9 +29,9 @@ jobs:
       
     - uses: iterative/setup-cml@v2
     - name: Authenticate to Google Cloud & Pull
+      env:
+        GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS_JSON }}
       run: |
-        echo "${{ secrets.GCP_CREDENTIALS_JSON }}" > key.json
-        export GOOGLE_APPLICATION_CREDENTIALS=$PWD/key.json
         dvc pull model.keras.dvc
         dvc pull samples.dvc
 
